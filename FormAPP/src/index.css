@@ -4,10 +4,13 @@ body, html {
   padding: 0;
   font-family: 'Arial', sans-serif;
   background-color: #f4f4f9;
-  height: 100%;
+  height: 100%; /* Full height */
   display: flex;
-  justify-content: center;
+  flex-direction: column; /* Allow content to flow vertically */
+  justify-content: flex-start; /* Start from the top */
   align-items: center;
+  min-height: 100vh; /* Ensure minimum height is the full viewport */
+  box-sizing: border-box; /* Include padding and borders in height calculations */
 }
 
 /* Responsive and centered container */
@@ -20,6 +23,12 @@ body, html {
   width: 100%;
   text-align: center;
   margin: 1rem;
+  flex-grow: 1; /* Allow the container to grow and fill remaining space */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
 }
 
 h1 {
@@ -94,6 +103,7 @@ p.error {
   color: red;
 }
 
+/* Media Queries */
 @media (max-width: 768px) {
   .App {
     padding: 1rem;
@@ -130,4 +140,41 @@ p.error {
   input[type="file"] {
     padding: 0.5rem;
   }
+}
+
+/* Animation for high confidence */
+.verified {
+  color: blue;
+  font-weight: bold;
+  position: relative;
+  padding-right: 25px;
+}
+
+.verified:before {
+  content: '✅';
+  position: absolute;
+  right: 0;
+  animation: popIn 0.3s ease-out;
+}
+
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Animation for lower confidence */
+.unverified {
+  color: orange;
+  font-weight: bold;
+}
+
+.low-confidence {
+  color: red;
+  font-weight: bold;
 }

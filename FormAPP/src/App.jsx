@@ -6,6 +6,7 @@ const App = () => {
   const [imageData, setImageData] = useState(null);
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState('');
+  const [extractedData, setExtractedData] = useState(null);
 
   useEffect(() => {
     navigator.mediaDevices
@@ -65,13 +66,19 @@ const App = () => {
       }
 
       setMessage(result.message || 'File uploaded successfully! Check server logs for more.');
-      if (result.extracted_data) {
-        setMessage(`Extracted Text: ${result.extracted_data.text}`);
+      if (result.structured_data) {
+        setExtractedData(result.structured_data); // Store extracted data
       }
     } catch (error) {
       console.error('Error uploading the file:', error);
       setMessage('Failed to upload image.');
     }
+  };
+
+  const getConfidenceClass = (confidence) => {
+    if (confidence >= 0.9) return 'verified';
+    if (confidence >= 0.75) return 'unverified';
+    return 'low-confidence';
   };
 
   return (
@@ -92,6 +99,29 @@ const App = () => {
         <button type="submit">Upload Image</button>
       </form>
       {message && <p>{message}</p>}
+
+      {extractedData && (
+        <div>
+          <h3>Extracted Data</h3>
+          <ul>
+            {extractedData.person_names.map((name) => (
+              <li key={name} className={getConfidenceClass(extractedData.confidence[name])}>
+                {name} - Confidence: {extractedData.confidence[name]}
+              </li>
+            ))}
+            {extractedData.dates.map((date) => (
+              <li key={date} className={getConfidenceClass(extractedData.confidence[date])}>
+                {date} - Confidence: {extractedData.confidence[date]}
+              </li>
+            ))}
+            {extractedData.organizations.map((org) => (
+              <li key={org} className={getConfidenceClass(extractedData.confidence[org])}>
+                {org} - Confidence: {extractedData.confidence[org]}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

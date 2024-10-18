@@ -6,6 +6,7 @@ import easyocr
 import spacy  # For advanced NLP processing
 import json  # To save structured data as JSON
 import fitz  # PyMuPDF for PDF text extraction
+import sqlite3  # Import SQLite3
 
 app = Flask(__name__)
 CORS(app)
@@ -22,6 +23,26 @@ reader = easyocr.Reader(['en'])
 
 # Load a pre-trained spaCy NLP model
 nlp = spacy.load("en_core_web_sm")
+
+# Initialize SQLite database
+DATABASE = 'structured_data.db'
+
+def init_db():
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS documents (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            filename TEXT,
+            person_names TEXT,
+            dates TEXT,
+            addresses TEXT,
+            organizations TEXT,
+            confidence TEXT
+        )
+    ''')
+    conn.commit()
+    conn.close()
 
 @app.route('/upload', methods=['POST'])
 def upload_document():
@@ -43,23 +64,20 @@ def upload_document():
         # Process extracted text into structured form
         structured_data = process_text_with_nlp(extracted_text['text'])
 
-        # Save the structured data to a file
-        structured_file_path = save_structured_data_to_file(structured_data, filename)
-    
     # Check if the file is an image (png, jpg, etc.)
     elif filename.lower().endswith(('.jpg', '.jpeg', '.png', '.bmp')):
         # Extract text from image using EasyOCR
         extracted_text = extract_text_from_image_using_easyocr(file_path)
         # Process extracted text into structured form
         structured_data = process_text_with_nlp(extracted_text['text'])
-
-        # Save the structured data to a file
-        structured_file_path = save_structured_data_to_file(structured_data, filename)
     
     else:
         return jsonify({"error": "Unsupported file type. Please upload an image or PDF file."}), 400
 
-    return jsonify({"structured_data": structured_data, "structured_file": structured_file_path}), 200
+    # Save structured data to SQLite database
+    save_structured_data_to_db(structured_data, filename)
+
+    return jsonify({"structured_data": structured_data}), 200
 
 # Extract text using EasyOCR (for images) with confidence values
 def extract_text_from_image_using_easyocr(file_path):
@@ -85,12 +103,11 @@ def extract_text_from_pdf(file_path):
     except Exception as e:
         return {"error": f"Error processing PDF: {str(e)}"}
 
-# Process extracted text using NLP and structure it, with confidence heuristic
+# Process extracted text using NLP and structure it
 def process_text_with_nlp(extracted_text):
     # Run the NLP pipeline on the extracted text
     doc = nlp(extracted_text)
 
-    # Example structured data initialization with confidence scores
     structured_data = {
         "person_names": [],
         "dates": [],
@@ -99,17 +116,16 @@ def process_text_with_nlp(extracted_text):
         "confidence": {}
     }
 
-    # Simple heuristic: confidence score based on entity type
+    # Confidence heuristic
     entity_confidence = {
-        "PERSON": 0.95,  # High confidence for PERSON
+        "PERSON": 0.95,
         "DATE": 0.9,
         "GPE": 0.85,
         "ORG": 0.9,
         "LOC": 0.85,
-        "default": 0.75  # Lower confidence for other types
+        "default": 0.75
     }
 
-    # Iterate over named entities to find people, dates, organizations, etc.
     for ent in doc.ents:
         if ent.label_ == "PERSON":
             structured_data["person_names"].append(ent.text)
@@ -125,17 +141,27 @@ def process_text_with_nlp(extracted_text):
 
     return structured_data
 
-# Save structured data to a JSON file
-def save_structured_data_to_file(structured_data, original_filename):
-    base_filename = os.path.splitext(original_filename)[0]
-    structured_file_name = f"{base_filename}_structured.json"
-    structured_file_path = os.path.join(app.config['UPLOAD_FOLDER'], structured_file_name)
+# Save structured data to SQLite database
+def save_structured_data_to_db(structured_data, original_filename):
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    
+    # Prepare data for insertion
+    cursor.execute('''
+        INSERT INTO documents (filename, person_names, dates, addresses, organizations, confidence) 
+        VALUES (?, ?, ?, ?, ?, ?)
+    ''', (
+        original_filename,
+        ', '.join(structured_data['person_names']),
+        ', '.join(structured_data['dates']),
+        ', '.join(structured_data['addresses']),
+        ', '.join(structured_data['organizations']),
+        json.dumps(structured_data['confidence'])  # Save confidence as JSON string
+    ))
 
-    # Save the structured data to a JSON file
-    with open(structured_file_path, 'w', encoding='utf-8') as f:
-        json.dump(structured_data, f, ensure_ascii=False, indent=4)
-
-    return structured_file_path
+    conn.commit()
+    conn.close()
 
 if __name__ == '__main__':
+    init_db()  # Initialize the database and create tables
     app.run(debug=True)
