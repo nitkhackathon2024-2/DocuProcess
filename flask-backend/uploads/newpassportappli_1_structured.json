@@ -1,0 +1,71 @@
+{
+    "person_names": [
+        "Marital Status"
+    ],
+    "dates": [
+        "575006",
+        "575006",
+        "575006",
+        "16/04/2012",
+        "1967"
+    ],
+    "addresses": [
+        "MM",
+        "MANGALURU CITY",
+        "MANGALURU CITY",
+        "India",
+        "India"
+    ],
+    "organizations": [
+        "Ministry of External Affairs\nService Required\nApplication Reference Number\n",
+        "Type of Application\nNORMAL\nType of",
+        "Validity Required\nNA\nPlace of",
+        "Birth (Village/Town/City",
+        "PAN",
+        "ASHOKNAGAR",
+        "URVA",
+        "MANGALORE",
+        "MANGALORE",
+        "KARNATAKA",
+        "SAMYMENEZES33@GMAIL.COM\nPermanent Residential Address\nAddress",
+        "ASHOKNAGAR",
+        "URVA",
+        "MANGALORE",
+        "MANGALORE",
+        "KARNATAKA",
+        "POMPEI",
+        "ASHOKNAGAR",
+        "URVA"
+    ],
+    "confidence": {
+        "11/17/23": 0.75,
+        "1:11 PM": 0.75,
+        "1/2": 0.75,
+        "Ministry of External Affairs\nService Required\nApplication Reference Number\n": 0.9,
+        "Type of Application\nNORMAL\nType of": 0.9,
+        "MM": 0.85,
+        "Validity Required\nNA\nPlace of": 0.9,
+        "Birth (Village/Town/City": 0.9,
+        "Marital Status": 0.95,
+        "PAN": 0.9,
+        "613824372695": 0.75,
+        "1": 0.75,
+        "ASHOKNAGAR": 0.9,
+        "URVA": 0.9,
+        "MANGALORE": 0.9,
+        "MANGALURU CITY": 0.85,
+        "KARNATAKA": 0.9,
+        "575006": 0.9,
+        "SAMYMENEZES33@GMAIL.COM\nPermanent Residential Address\nAddress": 0.9,
+        "POMPEI": 0.9,
+        "SAMYMENEZES33@GMAIL.COM\nPrevious Passport\nDetails": 0.75,
+        "Date of Issue": 0.75,
+        "16/04/2012": 0.9,
+        "Self Declaration": 0.75,
+        "2/2": 0.75,
+        "India": 0.85,
+        "Indian": 0.75,
+        "the Passports Act": 0.75,
+        "1967": 0.9
+    }
+}

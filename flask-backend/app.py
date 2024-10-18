@@ -61,11 +61,12 @@ def upload_document():
 
     return jsonify({"structured_data": structured_data, "structured_file": structured_file_path}), 200
 
-# Extract text using EasyOCR (for images)
+# Extract text using EasyOCR (for images) with confidence values
 def extract_text_from_image_using_easyocr(file_path):
-    result = reader.readtext(file_path, detail=0)
-    text = " ".join(result)
-    return {"text": text}
+    result = reader.readtext(file_path, detail=1)  # Enable detailed mode to get confidence scores
+    text = " ".join([item[1] for item in result])  # Extract the text
+    confidence = [item[2] for item in result]  # Extract the confidence scores
+    return {"text": text, "confidence": confidence}
 
 # Extract text from PDF using PyMuPDF
 def extract_text_from_pdf(file_path):
@@ -84,17 +85,28 @@ def extract_text_from_pdf(file_path):
     except Exception as e:
         return {"error": f"Error processing PDF: {str(e)}"}
 
-# Process extracted text using NLP and structure it
+# Process extracted text using NLP and structure it, with confidence heuristic
 def process_text_with_nlp(extracted_text):
     # Run the NLP pipeline on the extracted text
     doc = nlp(extracted_text)
 
-    # Example structured data initialization
+    # Example structured data initialization with confidence scores
     structured_data = {
         "person_names": [],
         "dates": [],
         "addresses": [],
-        "organizations": []
+        "organizations": [],
+        "confidence": {}
+    }
+
+    # Simple heuristic: confidence score based on entity type
+    entity_confidence = {
+        "PERSON": 0.95,  # High confidence for PERSON
+        "DATE": 0.9,
+        "GPE": 0.85,
+        "ORG": 0.9,
+        "LOC": 0.85,
+        "default": 0.75  # Lower confidence for other types
     }
 
     # Iterate over named entities to find people, dates, organizations, etc.
@@ -107,6 +119,9 @@ def process_text_with_nlp(extracted_text):
             structured_data["addresses"].append(ent.text)
         elif ent.label_ == "ORG":
             structured_data["organizations"].append(ent.text)
+        
+        # Add confidence scores for each entity
+        structured_data["confidence"][ent.text] = entity_confidence.get(ent.label_, entity_confidence["default"])
 
     return structured_data
 
