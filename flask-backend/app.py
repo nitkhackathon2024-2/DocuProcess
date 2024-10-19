@@ -116,28 +116,60 @@ def process_text_with_nlp(extracted_text):
         "confidence": {}
     }
 
-    # Confidence heuristic
-    entity_confidence = {
-        "PERSON": 0.95,
-        "DATE": 0.9,
-        "GPE": 0.85,
-        "ORG": 0.9,
-        "LOC": 0.85,
-        "default": 0.75
+    # Base confidence heuristic
+    base_confidence = {
+        "PERSON": 0.85,  # Base confidence for PERSON
+        "DATE": 0.8,     # Base confidence for DATE
+        "GPE": 0.75,     # Base confidence for GPE
+        "ORG": 0.8,      # Base confidence for ORG
+        "LOC": 0.75,     # Base confidence for LOC
+        "default": 0.65  # Default base confidence
     }
 
-    for ent in doc.ents:
-        if ent.label_ == "PERSON":
-            structured_data["person_names"].append(ent.text)
-        elif ent.label_ == "DATE":
-            structured_data["dates"].append(ent.text)
-        elif ent.label_ == "GPE" or ent.label_ == "LOC":
-            structured_data["addresses"].append(ent.text)
-        elif ent.label_ == "ORG":
-            structured_data["organizations"].append(ent.text)
+    # Confidence adjustment logic based on entity properties
+    def adjust_confidence(entity, label):
+        base_score = base_confidence.get(label, base_confidence["default"])
+
+        # Increase confidence for well-formed entities
+        if label == "PERSON":
+            if len(entity.split()) > 1:  # If the name has more than one word (e.g., first + last name)
+                return min(base_score + 0.1, 0.95)  # Cap at 0.95
+
+        elif label == "DATE":
+            # Check if it's a full date (e.g., contains both month and day)
+            if any(char.isdigit() for char in entity) and any(char.isalpha() for char in entity):
+                return min(base_score + 0.1, 0.9)
+
+        elif label == "ORG":
+            # If the organization ends with common suffixes (e.g., Inc., Ltd.)
+            if any(suffix in entity for suffix in ["Inc.", "Ltd.", "LLC", "Corp.", "Company"]):
+                return min(base_score + 0.1, 0.9)
+
+        elif label in ["GPE", "LOC"]:
+            # If it's a common location with multiple words (e.g., "New York")
+            if len(entity.split()) > 1:
+                return min(base_score + 0.1, 0.9)
         
-        # Add confidence scores for each entity
-        structured_data["confidence"][ent.text] = entity_confidence.get(ent.label_, entity_confidence["default"])
+        # If no specific conditions match, return the base confidence
+        return base_score
+
+    for ent in doc.ents:
+        entity_text = ent.text
+        entity_label = ent.label_
+
+        # Classify the entity into structured data
+        if entity_label == "PERSON":
+            structured_data["person_names"].append(entity_text)
+        elif entity_label == "DATE":
+            structured_data["dates"].append(entity_text)
+        elif entity_label == "GPE" or entity_label == "LOC":
+            structured_data["addresses"].append(entity_text)
+        elif entity_label == "ORG":
+            structured_data["organizations"].append(entity_text)
+
+        # Adjust confidence based on entity type and properties
+        adjusted_confidence = adjust_confidence(entity_text, entity_label)
+        structured_data["confidence"][entity_text] = adjusted_confidence
 
     return structured_data
 

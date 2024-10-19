@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
+import './App.css';
+
 
 const App = () => {
   const videoRef = useRef(null);
@@ -86,7 +88,7 @@ const App = () => {
       <h1>Smart Document Processor</h1>
       <video ref={videoRef} autoPlay playsInline style={{ width: '100%', height: 'auto' }}></video>
       <canvas ref={canvasRef} width={640} height={480} style={{ display: 'none' }}></canvas>
-      <button onClick={captureImage}>Capture Image</button>
+      <button onClick={captureImage} class="capture_button">Capture Image</button>
       {imageData && (
         <div>
           <h3>Captured Image</h3>
