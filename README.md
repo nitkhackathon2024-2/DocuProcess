@@ -86,3 +86,10 @@ The frontend will run on http://localhost:3000/.
 1) Go to the home page and click Upload Document.
 2) Upload a PDF or image.
 3) The platform extracts text and key information, presenting you with confidence scores and structured data.
+
+### Contributors
+
+This project was developed by 
+[Sheldon Angelo Menezes](https://github.com/0x5h31d0n)
+[Stalin Prevan Crasta](https://github.com/StalinPrevanCrasta)
+[Jeswin Jacob Lobo](https://github.com/jeswin2003lobo)
