@@ -14,7 +14,6 @@ Watch a demo of how DocuProcess works in the video below:
 - **Easy Upload**: Upload and process PDFs and image files (JPG, PNG, etc.).
 - **OCR & Data Extraction**: Extract text and key information automatically using EasyOCR and PyMuPDF.
 - **Document Verification**: Verify the authenticity of uploaded documents.
-- **Auto-fill Forms**: Instantly populate forms with extracted data.
 - **Confidence Scores**: View confidence levels for extracted data for accuracy.
 - **Secure Processing**: All data is securely stored in SQLite3.
 
