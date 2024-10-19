@@ -58,6 +58,7 @@ cd flask-backend
 pip install -r requirements.txt
 python app.py
 ```
+The server will start running at http://127.0.0.1:5000/.
 
 ## Frontend Setup (React)
 ```bash
@@ -65,7 +66,7 @@ cd FormAPP
 npm install
 npm run dev
 ```
-
+The frontend will run on http://localhost:3000/.
 
 ## API Endpoints
 /upload (POST)
