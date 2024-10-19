@@ -44,7 +44,7 @@ docuprocess/
 │       └── HomePage.css         # CSS file for styling the home page
 │
 └── README.md                    # This README file
-
+```
 ## Setup Instructions
 Prerequisites
 Python 3.x
