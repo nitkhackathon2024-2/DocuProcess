@@ -50,3 +50,15 @@ Prerequisites
 Python 3.x
 Node.js
 npm or yarn
+
+## API Endpoints
+/upload (POST)
+1) Description: Upload a document (PDF or image) for OCR and NLP processing.
+2) Request: Multipart form data with the document file.
+3) Response: JSON object with the structured data, including person names, dates, addresses, organizations, and confidence scores.
+
+
+## Example
+1) Go to the home page and click Upload Document.
+2) Upload a PDF or image.
+3) The platform extracts text and key information, presenting you with confidence scores and structured data.
