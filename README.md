@@ -2,6 +2,13 @@
 
 DocuProcess is a smart document processing platform that allows users to upload PDFs and images, extract key information using OCR (Optical Character Recognition) and NLP (Natural Language Processing), and view confidence scores for accuracy. It also offers features like auto-filling forms and document verification.
 
+## Demo Video
+
+Watch a demo of how DocuProcess works in the video below:
+
+[![DocuProcess Demo](https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg)](https://www.youtube.com/watch?v=VIDEO_ID)
+
+
 ## Features
 
 - **Easy Upload**: Upload and process PDFs and image files (JPG, PNG, etc.).
