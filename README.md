@@ -8,6 +8,18 @@ Watch a demo of how DocuProcess works in the video below:
 
 [![DocuProcess Demo](https://i9.ytimg.com/vi_webp/ZGlslA-L7-U/mq1.webp?sqp=CKClzLgG-oaymwEmCMACELQB8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGFkgWShZMA8=&rs=AOn4CLDVQqaLPnraejQfte3_3QmaVyG1Bw)](https://www.youtube.com/watch?v=ZGlslA-L7-U)
 
+## College Name - Team Name
+**College Name:** St. Joseph Engineering College  
+**Team Name:** Extract0rs
+
+## Team Members
+- [Sheldon Angelo Menezes](https://github.com/0x5h31d0n)
+- [Stalin Prevan Crasta](https://github.com/StalinPrevanCrasta)
+- [Jeswin Jacob Lobo](https://github.com/jeswin2003lobo)
+
+## Problem Statement
+**Theme:** Smart Document Processing  
+**Problem Statement:** Develop a platform that allows users to upload PDFs and images, extract key information using OCR and NLP, and provide confidence scores for accuracy. The platform should also offer features like auto-filling forms and document verification.
 
 ## Features
 
@@ -57,44 +69,58 @@ docuprocess/
 └── README.md                    # This README file
 ```
 
-## Setup Instructions
-Prerequisites
-Python 3.x
-Node.js
-npm or yarn
+## Instructions on Running Your Project
 
-## Backend Setup (Flask)
-```bash  
-git clone https://github.com/nitkhackathon2024-2/DocuProcess.git
-cd flask-backend
-pip install -r requirements.txt
-python app.py
-```
-The server will start running at http://127.0.0.1:5000/.
+### Prerequisites
+- Python 3.x
+- Node.js
+- npm or yarn
 
-## Frontend Setup (React)
-```bash
-cd FormAPP
-npm install
-npm run dev
-```
-The frontend will run on http://localhost:3000/.
+### Backend Setup (Flask)
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/nitkhackathon2024-2/DocuProcess.git
+    ```
+2. Navigate to the backend directory:
+    ```bash
+    cd docuprocess/backend
+    ```
+3. Install the required Python packages:
+    ```bash
+    pip install -r requirements.txt
+    ```
+4. Run the Flask server:
+    ```bash
+    python app.py
+    ```
+   The server will start running at `http://127.0.0.1:5000/`.
 
-## API Endpoints
-/upload (POST)
-1) Description: Upload a document (PDF or image) for OCR and NLP processing.
-2) Request: Multipart form data with the document file.
-3) Response: JSON object with the structured data, including person names, dates, addresses, organizations, and confidence scores.
+### Frontend Setup (React)
+1. Navigate to the frontend directory:
+    ```bash
+    cd docuprocess/frontend
+    ```
+2. Install the required Node packages:
+    ```bash
+    npm install
+    ```
+3. Run the React development server:
+    ```bash
+    npm run dev
+    ```
+   The frontend will run on `http://localhost:3000/`.
 
-
-## Example
-1) Go to the home page and click Upload Document.
-2) Upload a PDF or image.
-3) The platform extracts text and key information, presenting you with confidence scores and structured data.
+## References
+- [Flask Documentation](https://flask.palletsprojects.com/)
+- [EasyOCR Documentation](https://www.jaided.ai/easyocr/)
+- [PyMuPDF Documentation](https://pymupdf.readthedocs.io/)
+- [spaCy Documentation](https://spacy.io/)
+- [React Documentation](https://reactjs.org/)
+- [SQLite Documentation](https://www.sqlite.org/docs.html)
 
 ### Contributors
 
-This project was developed by 
-[Sheldon Angelo Menezes](https://github.com/0x5h31d0n)
-[Stalin Prevan Crasta](https://github.com/StalinPrevanCrasta)
-[Jeswin Jacob Lobo](https://github.com/jeswin2003lobo)
+This project was developed by:
+- [Sheldon Angelo Menezes](https://github.com/0x5h31d0n) - St. Joseph Engineering College
+- [Stalin Prevan Crasta](https://github.com/StalinPrevanCrasta) - St. Joseph Engineering College
+- [Jeswin Jacob Lobo](https://github.com/jeswin2003lobo) - St. Joseph Engineering College
