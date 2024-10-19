@@ -32,12 +32,12 @@ Watch a demo of how DocuProcess works in the video below:
 - **CSS**: Styling the React components.
 
 ## Project Structure
-
 ```bash
 docuprocess/
 │
 ├── backend/                     # Backend files
 │   ├── app.py                   # Flask server with OCR and NLP processing
+│   ├── check_db.py              # Script to check database integrity or schema
 │   ├── uploads/                 # Folder to store uploaded files
 │   └── structured_data.db       # SQLite database for structured data
 │
@@ -46,11 +46,17 @@ docuprocess/
 │   ├── src/
 │       ├── components/          # Reusable React components
 │       ├── HomePage.jsx         # Home page with upload and features
+│       ├── Form.jsx             # Form component for data input and interaction
 │       ├── App.jsx              # Main React component
-│       └── HomePage.css         # CSS file for styling the home page
+│       ├── main.jsx             # Main entry point for the React app
+│       ├── routes.jsx           # Routes for the different pages/components
+│       ├── HomePage.css         # CSS file for styling the home page
+│       ├── simpleForm.css       # CSS file for styling the form
+│       └── index.css            # Global CSS file for the entire frontend
 │
 └── README.md                    # This README file
 ```
+
 ## Setup Instructions
 Prerequisites
 Python 3.x
