@@ -51,6 +51,22 @@ Python 3.x
 Node.js
 npm or yarn
 
+## Backend Setup (Flask)
+```bash  
+git clone https://github.com/nitkhackathon2024-2/DocuProcess.git
+cd flask-backend
+pip install -r requirements.txt
+python app.py
+```
+
+## Frontend Setup (React)
+```bash
+cd FormAPP
+npm install
+npm run dev
+```
+
+
 ## API Endpoints
 /upload (POST)
 1) Description: Upload a document (PDF or image) for OCR and NLP processing.
